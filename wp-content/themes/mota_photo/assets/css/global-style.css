@@ -1,0 +1,89 @@
+/* FONTS */
+
+     @font-face {
+          font-family: 'Space Mono';
+          font-style: normal;
+          font-weight: 400;
+          src: url('../fonts/Space_Mono/SpaceMono-Regular.ttf');
+          font-display: fallback;
+     }
+
+     @font-face {
+          font-family: 'Space Mono';
+          font-style: italic;
+          font-weight: 400;
+          src: url('../fonts/Space_Mono/SpaceMono-Italic.ttf');
+          font-display: fallback;
+     }
+
+     @font-face {
+          font-family: 'Space Mono';
+          font-style: normal;
+          font-weight: 700;
+          src: url('../fonts/Space_Mono/SpaceMono-Bold.ttf');
+          font-display: fallback;
+     }
+
+     @font-face {
+          font-family: 'Space Mono';
+          font-style: italic;
+          font-weight: 700;
+          src: url('../fonts/Space_Mono/SpaceMono-BoldItalic.ttf');
+          font-display: fallback;
+     }
+
+/* HTML & RESET */
+
+     body {
+          color: #000000;
+          font-family: 'Space Mono';
+     }
+
+     a, a:visited {
+          text-decoration: none;
+          color: inherit;
+     }
+
+     ul {
+          list-style-type: none;
+     }
+
+/* HEADER */
+
+     .main-header {
+          max-width: 1440px;
+          margin: auto;
+          padding: 25px 140px;
+          background-color: #FFFF;
+     }
+
+     header {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          color: #000000;
+          font-family: 'Space Mono';
+          font-size: 16px;
+          font-weight: 400;
+          text-transform: uppercase;
+     }
+
+     .main-header-nav ul {
+          padding: 0;
+          margin: 0;
+     }
+
+     .main-header-nav ul li {
+          display: inline;
+          padding-left: 45px ;
+     }
+
+     .main-header-nav ul li:first-child {
+          padding-left: 0px !important;
+     }
+
+/* CONTACT FORM MODAL */
+
+
+
+   
