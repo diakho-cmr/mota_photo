@@ -50,14 +50,7 @@
 
 /* HEADER & FOOTER */
 
-     .main-header {
-          max-width: 1440px;
-          margin: auto;
-          padding: 25px 140px;
-          background-color: #FFFF;
-     }
-
-     header, footer {
+     .main-header, footer, .navbar-head {
           display: flex;
           align-items: center;
           justify-content: space-between;
@@ -68,7 +61,19 @@
           text-transform: uppercase;
      }
 
-     .main-header-nav ul, .footer-nav ul {
+     .main-header {
+          max-width: 1440px;
+          padding: 25px 140px;
+          background-color: #FFFF;
+     }
+
+     .navbar-head {
+          max-width: 600px;
+          padding: 25px 40px;
+          background-color: #FFFF;
+     }
+
+     .main-header-nav ul, .footer-nav ul{
           padding: 0;
           margin: 0;
      }
@@ -96,11 +101,72 @@
           padding-bottom: 7px;
      }
 
+
+     .main-header-mobile {
+          display: none;
+     }
+
+     .burger-menu-modal {
+          display: none;
+     }
+
+     @media all and (max-width : 600px) {
+          .main-header-desktop {
+               display: none;
+          }
+          .main-header-mobile {
+               display: flex;
+               flex-direction: column;
+          }
+          .burger-menu-modal-opened {
+               display: flex;
+               align-items: center;
+               justify-content: center;
+               background-color: #E00000;
+               height: 100vh;
+               width: 100%;
+               opacity: 1;
+               font-family: 'Space Mono';
+               font-weight: 400;
+               font-size: 44px;
+               text-transform: uppercase;
+               color: #FFFFFF;
+               text-align: center;
+               z-index: 2;
+          }
+          .burger-menu-modal-opened ul {
+               margin: 0;
+               padding: 0;
+          }
+          .burger-menu-modal-opened nav li {
+               padding-bottom: 18px;
+          }
+          .burger-menu-modal-opened nav li:last-child {
+               padding-bottom: 0px;
+          }
+          .footer {
+               margin: 44px 44px;
+          }
+          .footer ul {
+               display: flex;
+               flex-direction: column;
+          }
+          .footer ul li {
+               padding-left: 0;
+               padding-bottom: 24px;
+               text-align: center;
+          }
+     }
+
 /* CONTACT FORM MODAL */
 
      .contact-modal {
           display: none;
-          position: fixed;
+     }
+
+     .contact-modal-displayed {
+          display: block;
+          /*position: fixed;*/
           z-index: 1;
           left: 0;
           top: 0;
