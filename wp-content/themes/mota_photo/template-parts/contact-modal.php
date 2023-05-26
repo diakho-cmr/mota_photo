@@ -1,17 +1,36 @@
-<form class="contact-form" action="" method="POST">
+<div class="contact-modal">
+    <div class="contact-modal-content">
 
-    <label for="nom">Nom :</label>
-    <input type="text" id="nom" name="nom" required>
-    
-    <label for="email">Email :</label>
-    <input type="email" id="email" name="email" required>
+        <div class="contact-modal-header">
+        </div>
 
-    <label for="nom">Réf. photo :</label>
-    <input type="text" id="ref-photo" name="nom" required>
-    
-    <label for="message">Message :</label>
-    <textarea id="message" name="message" required></textarea>
-    
-    <input type="submit" value="Envoyer">
+        <form class="contact-form" action="" method="POST">
 
-</form>
+            <div class="input-group">
+                <label for="nom">Nom</label>
+                <input type="text" id="nom" name="nom" required>
+            </div>
+            
+            <div class="input-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+
+            <div class="input-group">
+                <label for="nom">Réf. photo</label>
+                <input type="text" id="ref-photo" name="nom">
+            </div>
+            
+            <div class="input-group">
+                <label for="message">Message</label>
+                <textarea id="message" name="message" required></textarea>
+            </div>
+            
+            <div class="input-group">
+                <input id="submit" type="submit" value="Envoyer">
+            </div>
+
+        </form>
+        
+    </div>
+</div>

@@ -48,7 +48,7 @@
           list-style-type: none;
      }
 
-/* HEADER */
+/* HEADER & FOOTER */
 
      .main-header {
           max-width: 1440px;
@@ -57,7 +57,7 @@
           background-color: #FFFF;
      }
 
-     header {
+     header, footer {
           display: flex;
           align-items: center;
           justify-content: space-between;
@@ -68,21 +68,97 @@
           text-transform: uppercase;
      }
 
-     .main-header-nav ul {
+     .main-header-nav ul, .footer-nav ul {
           padding: 0;
           margin: 0;
      }
 
-     .main-header-nav ul li {
+     .main-header-nav ul li, .footer-nav ul li {
           display: inline;
           padding-left: 45px ;
      }
 
-     .main-header-nav ul li:first-child {
+     .main-header-nav ul li:first-child, .footer-nav ul li:first-child {
           padding-left: 0px !important;
      }
 
+     .footer {
+          display: flex;
+          justify-content: center;
+          position: fixed;
+          bottom: 0;
+          right: 0;
+          left: 0;
+     }
+     
+     .footer ul {
+          padding-top: 7px;
+          padding-bottom: 7px;
+     }
+
 /* CONTACT FORM MODAL */
+
+     .contact-modal {
+          display: none;
+          position: fixed;
+          z-index: 1;
+          left: 0;
+          top: 0;
+          width: 100%;
+          height: 100%;
+          overflow: auto;
+          background-color: rgba(0, 0, 0, 0.7);
+     }
+
+     .contact-modal-header {
+          background-image: url('../images/contact-header.svg');
+          background-position: center;
+          background-repeat: no-repeat;
+          background-size: 100% 100%;
+          height: 70px;
+          margin: 15px 0px 15px 0px;
+     }
+   
+     .contact-modal-content {
+          background-color: #fefefe;
+          margin: 10% auto;
+          border: 4px solid #000000;
+          max-width: 449px;
+     }
+
+     .contact-form {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+     }
+
+     .contact-form .input-group {
+          max-width: 190px;
+          margin-bottom: 15px;
+          display: flex;
+          flex-direction: column;
+     }
+
+     .contact-modal-content label {
+          font-family: 'Space Mono';
+          font-size: 12px;
+          font-weight: 500;
+          text-transform: uppercase;
+          margin-bottom: 4px;
+     }
+     
+     .contact-form #submit {
+          width: 190px;
+          border: none;
+          background-color: #D8D8D8;
+          padding: 26px 0px;
+     }
+
+     .contact-form #message {
+          height: 149px;
+          resize: none;
+     }
+
 
 
 

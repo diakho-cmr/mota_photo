@@ -52,7 +52,7 @@ function register_my_menu() {
 add_action( 'after_setup_theme', 'register_my_menu' );
 
 /**
- * Add contact item in menu
+ * Add contact item in main menu
  */
 
 function add_contact_item ($items, $args) {
@@ -63,3 +63,24 @@ function add_contact_item ($items, $args) {
     return $items;
 }
 add_filter('wp_nav_menu_items', 'add_contact_item', 10, 2);
+
+/**
+ * Register new menu for footer
+ */
+function register_footer_menu() {
+	register_nav_menu( 'footer-menu', 'Menu footer' );
+}
+add_action( 'after_setup_theme', 'register_footer_menu' );
+
+/**
+ * Add copyright in footer menu
+ */
+
+function add_copyright_item ($items, $args) {
+    if($args->theme_location == 'footer-menu') {
+        $item = '<li>Tous droits réservés</li>';
+        $items .= $item;
+    }
+    return $items;
+}
+add_filter('wp_nav_menu_items', 'add_copyright_item', 10, 2);
