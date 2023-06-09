@@ -32,6 +32,14 @@
           font-display: fallback;
      }
 
+     @font-face {
+          font-family: 'Poppins';
+          font-style: normal;
+          font-weight: 400;
+          src: url('../fonts/Poppins/Poppins-Regular.ttf');
+          font-display: fallback;
+     }
+
 /* HTML & RESET */
 
      body {
@@ -47,6 +55,59 @@
      ul {
           list-style-type: none;
      }
+
+/* TITLES & TEXTS */
+
+h1 {
+     font-family: 'Space Mono';
+     font-size: 96px;
+     font-style: italic;
+     font-weight: 700;
+     line-height: 142px;
+     letter-spacing: 0em;
+     text-align: left;
+     text-transform: uppercase;
+}
+
+h2 {
+     font-family: 'Space Mono';
+     font-size: 66px;
+     font-style: italic;
+     font-weight: 400;
+     line-height: 58px;
+     letter-spacing: 0em;
+     text-align: left;
+     text-transform: uppercase;
+}
+
+h3 {
+     font-family: 'Space Mono';
+     font-size: 18px;
+     font-weight: 400;
+     line-height: 27px;
+     letter-spacing: 0.1em;
+     text-align: left;
+     text-transform: uppercase;
+}
+
+.photo-desc {
+     font-family: 'Space Mono';
+     font-size: 14px;
+     font-weight: 400;
+     line-height: 21px;
+     letter-spacing: 0.1em;
+     text-align: left;
+     text-transform: uppercase;
+}
+
+p {
+     font-family: 'Poppins';
+     font-size: 14px;
+     font-weight: 300;
+     line-height: 21px;
+     letter-spacing: 0em;
+     text-align: left;
+}
 
 /* HEADER & FOOTER */
 
@@ -225,7 +286,97 @@
           resize: none;
      }
 
+/* PHOTO (SINGLE TEMPLATE) */
 
+.post-photo-container {
+     margin: 40px 140px;
+}
 
+.post-photo-container .photo-title {
+     font-family: 'Space Mono';
+     font-size: 66px;
+     font-style: italic;
+     font-weight: 400;
+     line-height: 58px;
+     text-align: left;
+     text-transform: uppercase;
+}
 
-   
+.post-photo-container p {
+     font-family: 'Space Mono';
+     font-size: 14px;
+     font-weight: 400;
+     line-height: 21px;
+     letter-spacing: 0.1em;
+     text-align: left;
+     text-transform: uppercase;
+}
+
+.post-photo-container .post-photo-content {
+     display: flex;
+     height: 844px;
+}
+
+.post-photo-container .post-photo-content .post-photo-content-text {
+     display: flex;
+     flex-direction: column;
+     justify-content:flex-end;
+}
+
+.post-photo-container .post-photo-content .post-photo-content-text,
+.post-photo-container .post-photo-content .post-photo-content-img, 
+.post-photo-container .post-photo-more .post-photo-contact, 
+.post-photo-container .post-photo-more .posts-navigation {
+     width: 50%;
+}
+
+.post-photo-container .post-photo-content .post-photo-content-img img {
+     width: 100%;
+     height: 100%; 
+     object-fit: cover;
+}
+
+/* POST PHOTO MORE */
+
+.post-photo-more {
+     display: flex;
+     justify-content: space-between;
+}
+
+/* POSTS NAVIGATION */
+
+.posts-navigation {
+     display: flex;
+     flex-direction: column;
+     justify-content: flex-end;
+}
+
+.posts-navigation .posts-navigation-img {
+     width: 100px; 
+     height: 100px;
+     border: #E3E3E3 1px solid;
+     margin-top: 8px
+}
+
+.posts-navigation .posts-navigation-img .img-post {
+     display: none;
+}
+
+.posts-navigation .posts-navigation-img .img-post-hover {
+     display: block;
+     width: 100%;
+     height: 100%; 
+     object-fit: cover;
+}
+
+.posts-navigation .posts-navigation-arrows {
+     display: flex; 
+     justify-content: space-between;
+     margin: 19px 0;
+}
+
+/* RELATED POSTS */
+
+.related-posts {
+     display: flex;
+}
