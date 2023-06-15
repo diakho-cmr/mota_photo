@@ -81,3 +81,42 @@ arrowNext.addEventListener('mouseout', function() {
     imgNext.classList.remove('img-post-hover');
 });
 
+/**
+ * RELATED POSTS
+ */
+
+var relatedPosts = document.querySelectorAll(".related-post");
+var photoIcons = document.querySelectorAll(".photo-icon");
+
+relatedPosts.forEach(post => {
+    post.addEventListener('mouseover', function() {
+        photoIcons.forEach(icon => {
+            icon.classList.add('photo-hover-icon');
+            if(icon.classList.contains('fa-eye')) {
+                icon.classList.add('icon-eye');
+            }
+            if(icon.classList.contains('fa-expand')) {
+                icon.classList.add('icon-focus');
+            }
+            if(icon.classList.contains('circle')) {
+                icon.classList.add('icon-circle');
+            }
+        });
+    });
+    post.addEventListener('mouseout', function() {
+        photoIcons.forEach(icon => {
+            icon.classList.remove('photo-hover-icon');
+            if(icon.classList.contains('fa-eye')) {
+                icon.classList.remove('icon-eye');
+            }
+            if(icon.classList.contains('fa-expand')) {
+                icon.classList.remove('icon-focus');
+            }
+            if(icon.classList.contains('circle')) {
+                icon.classList.remove('icon-circle');
+            }
+        });
+    });
+});
+
+

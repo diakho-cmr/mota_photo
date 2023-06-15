@@ -149,15 +149,15 @@ p {
      }
 
      .footer {
+          width: 100%;
+     }
+
+     .footer .footer-nav {
           display: flex;
           justify-content: center;
-          position: fixed;
-          bottom: 0;
-          right: 0;
-          left: 0;
      }
      
-     .footer ul {
+     .footer .footer-nav ul {
           padding-top: 7px;
           padding-bottom: 7px;
      }
@@ -288,6 +288,12 @@ p {
 
 /* PHOTO (SINGLE TEMPLATE) */
 
+.linear-gradient {
+     background-image:linear-gradient(#F0F0F0,#FFFFFF);
+     width: 100%;
+     height: 50px;
+}
+
 .post-photo-container {
      margin: 40px 140px;
 }
@@ -315,6 +321,7 @@ p {
 .post-photo-container .post-photo-content {
      display: flex;
      height: 844px;
+     gap: 20px;
 }
 
 .post-photo-container .post-photo-content .post-photo-content-text {
@@ -326,7 +333,8 @@ p {
 .post-photo-container .post-photo-content .post-photo-content-text,
 .post-photo-container .post-photo-content .post-photo-content-img, 
 .post-photo-container .post-photo-more .post-photo-contact, 
-.post-photo-container .post-photo-more .posts-navigation {
+.post-photo-container .post-photo-more .posts-navigation,
+.post-photo-container .related-posts .related-post {
      width: 50%;
 }
 
@@ -336,22 +344,42 @@ p {
      object-fit: cover;
 }
 
+.horizontal-rule hr {
+     margin: 0;
+}
+
 /* POST PHOTO MORE */
 
-.post-photo-more {
+.post-photo-container .post-photo-more {
+     display: flex;
+     margin-top: 31px;
+     align-content: center;
+}
+
+.post-photo-container .post-photo-more .post-photo-contact {
      display: flex;
      justify-content: space-between;
 }
 
-/* POSTS NAVIGATION */
-
-.posts-navigation {
+.grey-button {
+     background-color: #d8d8d8;
+     width: 272px;
+     height: 50px;
      display: flex;
-     flex-direction: column;
-     justify-content: flex-end;
+     justify-content: center;
+     align-items: center;
+     margin-right: 16px;
 }
 
-.posts-navigation .posts-navigation-img {
+/* POSTS NAVIGATION */
+
+.post-photo-container .post-photo-more .posts-navigation {
+     display: flex;
+     flex-direction: column;
+     align-items: flex-end;
+}
+
+.post-photo-more .posts-navigation .posts-navigation-img {
      width: 100px; 
      height: 100px;
      border: #E3E3E3 1px solid;
@@ -371,12 +399,166 @@ p {
 
 .posts-navigation .posts-navigation-arrows {
      display: flex; 
-     justify-content: space-between;
      margin: 19px 0;
 }
 
 /* RELATED POSTS */
 
-.related-posts {
+.post-photo-container .other-posts-content {
+     margin-top: 77px;
+}
+
+.post-photo-container .related-posts {
      display: flex;
+     gap: 20px;
+     max-height: 495px;
+     margin: 52px 0;
+}
+
+.post-photo-container .related-posts .related-post {
+     position: relative;
+}
+
+.post-photo-container .related-posts .related-post img {
+     width: 100%;
+     height: 100%; 
+     object-fit: cover;
+}
+
+.post-photo-container .other-posts-content .all-photo-posts {
+     display: flex; 
+     justify-content: center;
+}
+
+.photo-icon {
+     display: none;
+}
+
+.photo-hover-icon {
+     display: block;
+     color: #FFFFFF;
+}
+
+.icon-eye {
+     position: absolute;
+     top: 0;
+     bottom: 0;
+     left: 0;
+     right: 0;
+     display: flex;
+     align-items: center;
+     justify-content: center;
+}
+
+.icon-circle {
+     width: 40px;
+     height: 40px;
+     border-radius: 20px;
+     background-color: #000000;
+     position: absolute;
+     top: 0;
+     bottom: 0;
+     left: 0;
+     right: 0;
+}
+
+.icon-focus {
+     position: absolute;
+     top: 0;
+     bottom: 0;
+     left: 0;
+     right: 0;
+     display: flex;
+     align-items: center;
+     justify-content: center;
+}
+
+@media all and (max-width : 600px) {
+     h1 {
+          font-family: 'Space Mono';
+          font-size: 28px;
+          font-style: italic;
+          font-weight: 700;
+          line-height: 40.86px;
+          letter-spacing: 0em;
+          text-align: left;
+          text-transform: uppercase;
+     }
+     h2 {
+          font-family: 'Space Mono';
+          font-size: 46px;
+          font-style: italic;
+          font-weight: 400;
+          line-height: 48px;
+          letter-spacing: 0em;
+          text-align: left;
+          text-transform: uppercase;
+     }
+     .post-photo-container {
+          margin: 0 24px 24px;
+     }
+     .post-photo-container .post-photo-content {
+          flex-direction: column-reverse;
+          height: 100%;
+     }
+     .post-photo-container .post-photo-content .post-photo-content-text {
+          width: 100%;
+     }
+     .post-photo-container .post-photo-content .post-photo-content-img {
+          width: 100%;
+     }
+     .post-photo-container .post-photo-content .post-photo-content-img img {
+          width: 100%;
+          height: 100%; 
+          object-fit: cover;
+     }
+     .post-photo-content .post-photo-content-text .horizontal-rule {
+          margin-top: 41px;
+     }
+     .post-photo-container .post-photo-more {
+          justify-content: center;
+          margin: 24px 0;
+     }
+     .post-photo-container .post-photo-more .post-photo-contact {
+          flex-direction: column;
+          width: 100%;
+     }
+     .post-photo-container .post-photo-more .post-photo-contact p {
+          text-align: start;
+          margin-top: 0;
+     }
+     .post-photo-container .post-photo-more .post-photo-contact .grey-button {
+          margin-right: 0;
+          width: 100%;
+          /*align-self: center;*/
+     }
+     .post-photo-container .post-photo-more .post-photo-contact .grey-button span {
+          font-size: 12px;
+     }
+     .post-photo-container .post-photo-more .posts-navigation {
+          display: none;
+     }
+     .post-photo-container .related-posts {
+          flex-direction: column;
+          max-height: 100%;
+          margin: 20px 0;
+     }
+     .post-photo-container .related-posts .related-post {
+          width: 100%;
+     }
+     .post-photo-container .other-posts-content .all-photo-posts {
+          display: none;
+     }
+     .footer {
+          margin: 0 44px 44px;
+     }
+     .footer .horizontal-rule {
+          padding-bottom: 44px;
+     }
+     .horizontal-rule {
+          overflow: visible;
+     }
+     .post-photo-container .other-posts-content {
+          margin-top: 24px;
+     }
 }

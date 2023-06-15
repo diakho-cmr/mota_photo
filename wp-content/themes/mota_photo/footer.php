@@ -1,17 +1,23 @@
-<div class="footer">
-    <footer>
-        <nav class="footer-nav">
-            <?php
+
+<footer>
+    <div class="footer">
+        <div class="horizontal-rule">
+            <hr>
+        </div>
+        <div class="footer-nav">
+            <nav>
+                <?php
                 wp_nav_menu(
-                    array(
+                    [
                         'theme_location' => 'footer-menu',
                         'menu_id' => 'menu-footer',
-                    )
+                    ]
                 );
-            ?>
-        </nav>
-    </footer>
-</div>
+                ?>
+            </nav>
+        </div>
+    </div>
+</footer>
 
 <?php wp_footer(); ?>
 
