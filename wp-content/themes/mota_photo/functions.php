@@ -212,3 +212,89 @@ function custom_post_title($titles) {
 }
 add_filter( 'the_title', 'custom_post_title', 10, 1 );
 
+/**
+ * SORT POSTS IN HOMEPAGE
+ */
+
+add_action( 'wp_ajax_sort_posts_photo', 'sort_posts_photo' );
+add_action( 'wp_ajax_nopriv_sort_posts_photo', 'sort_posts_photo' );
+
+function sort_posts_photo() {
+
+    //vérif sécurité
+    if(!isset($_REQUEST['nonce']) || !wp_verify_nonce($_REQUEST['nonce'], 'sort_posts_photo')) {
+    	wp_send_json_error( "Vous n’avez pas l’autorisation d’effectuer cette action.", 403 );
+  	}
+
+    // On vérifie que les données ont bien été envoyées
+    if(!isset($_REQUEST)) {
+    	wp_send_json_error( "Informations manquantes", 403 );
+  	}
+
+    // Récupération des données du formulaire
+    $categories = [];
+    foreach(get_categories() as $category) {
+        $categories[] = $category->slug;
+    }
+    $formats = [];
+    foreach(get_terms('format') as $format) {
+        $formats[] = $format->slug;
+    }
+
+    $format = isset($_REQUEST['format']) && $_REQUEST['format'] !== 'default' ? sanitize_text_field($_REQUEST['format']) : $formats;
+    $category = isset($_REQUEST['category']) && $_REQUEST['category'] !== 'default' ? sanitize_text_field($_REQUEST['category']) : $categories;
+    $sort = isset($_REQUEST['sort']) && $_REQUEST['sort'] !== 'default'  ? sanitize_text_field($_REQUEST['sort']) : "DESC";
+
+    //Requête des posts
+    $args = array(
+        'post_type'         => 'photo', // Le type de contenu (ici, 'post'),
+        'post_status'       => 'publish',
+        'numberposts'       => -1,
+        'order'             => $sort,
+        'tax_query'         => array(
+        'relation'          => 'AND',
+            array(
+                'taxonomy'  => 'category', 
+                'field'     => 'slug', 
+                'terms'     => $category, 
+            ),
+            array(
+                'taxonomy'  => 'format', 
+                'field'     => 'slug', 
+                'terms'     => $format, 
+            )
+        ),
+    );
+    $posts = get_posts($args);
+    // End requête des posts
+
+    $posts_data = [];
+    foreach ($posts as $post) {
+        $post_data = [];
+        $img_url = custom_get_post_img($post)['url'];
+        $img_alt = custom_get_post_img($post)['alt'];
+        $ref = get_field('reference', $post->ID);
+        $category_terms = get_the_terms($post->ID, 'category');
+        if ($category_terms && !is_wp_error($category_terms)) {
+            foreach($category_terms as $term) {
+                $cat_term = $term->name;
+            }
+        }
+        $post_data [] =
+        [
+            'img_url' => $img_url,
+            'img_alt' => $img_alt,
+            'ref' => $ref,
+            'term' => $cat_term
+        ];
+        $posts_data[] = $post_data;
+    }
+    
+    //envoyer les données au navigateur
+	wp_send_json_success($post_data);
+
+    wp_reset_postdata();
+    
+}
+
+

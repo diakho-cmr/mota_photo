@@ -9,21 +9,21 @@ get_header(); ?>
 
     <div class="linear-gradient"></div>
 
-    <div class="post-photo-container">
+    <div class="post-photo-container page-content">
 
         <div class="post-photo-content">
             <div class="post-photo-content-text">
-                <div>
-                    <?php the_title('<h2 class="post-photo-title">', '</h2>'); ?>
+                <div class="padding">
+                    <?php the_title('<h1 class="title-h2">', '</h1>'); ?>
                     <!--REF-->
-                    <p>Référence :<?php echo get_field('reference'); ?></p>
+                    <p class="photo-desc">Référence :<?= get_field('reference'); ?></p>
                     <!--END REF-->
                     <!--CATEGORY-->
                     <?php
                     $category_terms = get_the_terms(get_the_ID(), 'category');
                     if ($category_terms && ! is_wp_error($category_terms)) :
                         foreach ( $category_terms as $term ) : ?>
-                            <p>Catégorie : <?php echo $term->name; ?></p>
+                            <p class="photo-desc">Catégorie : <?php echo $term->name; ?></p>
                         <?php endforeach; ?>
                     <?php endif; ?>
                     <!--END CATEGORY-->
@@ -32,15 +32,15 @@ get_header(); ?>
                     $format_terms = get_the_terms(get_the_ID(), 'format');
                     if ($format_terms && ! is_wp_error($format_terms)) :
                         foreach ( $format_terms as $term ) : ?>
-                            <p>Format : <?php echo $term->name; ?></p>
+                            <p class="photo-desc">Format : <?php echo $term->name; ?></p>
                         <?php endforeach; ?>
                     <?php endif; ?>
                     <!--END FORMAT-->
                     <!--TYPE-->
-                    <p>Type : <?php echo get_field('type'); ?></p>
+                    <p class="photo-desc">Type : <?php echo get_field('type'); ?></p>
                     <!--END TYPE-->
                     <!--SHOOTING YEAR-->
-                    <p>Année : <?php echo get_field('shooting_date'); ?></p>
+                    <p class="photo-desc">Année : <?php echo get_field('shooting_date'); ?></p>
                     <!--END SHOOTING YEAR-->
                 </div>
                 <div class=" horizontal-rule">
@@ -61,11 +61,11 @@ get_header(); ?>
             <!--END IMAGE-->
         </div>
 
-        <div class="post-photo-more">
+        <div class="post-photo-more padding">
             <div class= "post-photo-contact">
                 <p>Cette photo vous intéresse ?</p>
                 <div class="grey-button">
-                    <a href="#" class="photo-contact-link"><span>Contact</span></a>
+                    <a href="#" class="photo-contact-link"><span class="button-text">Contact</span></a>
                 </div>
             </div>
                 <?php 
@@ -87,7 +87,7 @@ get_header(); ?>
                     <?php endif; ?>
                     <?php if(!empty(get_next_post())) : ?>
                         <div class="posts-navigation-next">
-                            <a href="<?= get_post_permalink(get_next_post()->ID) ?>" class="arrow-left">
+                            <a href="<?= get_post_permalink(get_next_post()->ID) ?>" class="arrow-next">
                                 <img src="<?= $arrow_next ?>" alt="flèche suivant">
                             </a>
                         </div>
@@ -114,22 +114,21 @@ get_header(); ?>
             <div class="horizontal-rule">
                 <hr>
             </div>
-            <div class="other-posts-content">
-                <h3>Vous aimerez aussi</h3>
-                <div class="related-posts">
-                    <?php foreach($photos as $photo ) : ?>
-                        <div class="related-post">
-                            <img src="<?= custom_get_post_img($photo)['url'] ?>" alt="<?= custom_get_post_img($photo)['url'] ?>">
-                            <i class="photo-icon fa-regular fa-eye fa-lg"></i>
-                            <div class="photo-icon circle">
-                                <i class="photo-icon fa-solid fa-expand fa-lg"></i>
-                            </div>
-                        </div>
-                    <?php endforeach; ?>
+            <div class="other-posts-content padding">
+                <h2 class="title-h3">Vous aimerez aussi</h2>
+                <div class="cards-photo-container">
+                    <?php 
+                    foreach($photos as $photo) {
+                        if(!empty($photo)) {
+                            set_query_var('photo', $photo);
+                            get_template_part('template-parts/photo-card');
+                        }
+                    }
+                    ?>
                 </div>
                 <div class="all-photo-posts">
                     <div class="grey-button">
-                        <a href="#" class=""><span>Toutes les photos</span></a>
+                        <a href="#" class=""><span class="button-text">Toutes les photos</span></a>
                     </div>
                 </div>
             </div>

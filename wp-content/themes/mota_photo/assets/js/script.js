@@ -58,36 +58,41 @@ linkOpenModal.addEventListener("click", function() {
  */
 
 var arrowPrev = document.querySelector(".arrow-prev");
-var arrowNext = document.querySelector(".arrow-left");
+var arrowNext = document.querySelector(".arrow-next");
 var imgPrev = document.querySelector('.img-post-prev');
 var imgNext = document.querySelector('.img-post-next');
 
 
-arrowPrev.addEventListener('mouseover', function() {
-    imgPrev.classList.remove('img-post');
-    imgPrev.classList.add('img-post-hover');
-});
-arrowPrev.addEventListener('mouseout', function() {
-    imgPrev.classList.add('img-post');
-    imgPrev.classList.remove('img-post-hover');
-});
+if(arrowPrev) {
+    arrowPrev.addEventListener('mouseover', function() {
+        imgPrev.classList.remove('img-post');
+        imgPrev.classList.add('img-post-hover');
+    });
+    arrowPrev.addEventListener('mouseout', function() {
+        imgPrev.classList.add('img-post');
+        imgPrev.classList.remove('img-post-hover');
+    });
+}
 
-arrowNext.addEventListener('mouseover', function() {
-    imgNext.classList.remove('img-post');
-    imgNext.classList.add('img-post-hover');
-});
-arrowNext.addEventListener('mouseout', function() {
-    imgNext.classList.add('img-post');
-    imgNext.classList.remove('img-post-hover');
-});
+if(arrowNext) {
+    arrowNext.addEventListener('mouseover', function() {
+        imgNext.classList.remove('img-post');
+        imgNext.classList.add('img-post-hover');
+    });
+    arrowNext.addEventListener('mouseout', function() {
+        imgNext.classList.add('img-post');
+        imgNext.classList.remove('img-post-hover');
+    });
+}
 
 /**
  * RELATED POSTS
  */
 
-var relatedPosts = document.querySelectorAll(".related-post");
+var relatedPosts = document.querySelectorAll(".card-photo");
 var photoIcons = document.querySelectorAll(".photo-icon");
 
+/*
 relatedPosts.forEach(post => {
     post.addEventListener('mouseover', function() {
         photoIcons.forEach(icon => {
@@ -118,5 +123,132 @@ relatedPosts.forEach(post => {
         });
     });
 });
+*/
 
+/**
+ * HOME FILTERS
+ */
 
+document.addEventListener("DOMContentLoaded", function() {
+
+    var filters = document.querySelectorAll(".filter");
+
+    filters.forEach(filter => {
+        if(filter) {
+            filter.addEventListener('change', (e) => {
+                //données du formulaires
+            var form = document.getElementById('home-filters');
+            var ajaxUrl = form.getAttribute("action");
+            var action = document.querySelector("input[name=action]").value;
+            var nonce = document.querySelector("input[name=nonce]").value;
+            var format = document.querySelector("select[name=formats]").value;
+            var category = document.querySelector("select[name=categories]").value;
+            var sort = document.querySelector("select[name=sort]").value;
+            
+            var data = {
+                'action': action,
+                'nonce': nonce,
+                'format': format,
+                'category': category,
+                'sort': sort
+            };
+            //console.log(data);
+            //console.log(ajaxUrl);
+            //var y = arr["one"];
+
+            //requête AJAX
+            fetch(ajaxUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'Cache-Control': 'no-cache',
+                },
+                body: new URLSearchParams(data),
+            })
+            .then(response => response.json())
+            .then(response => {
+                console.log(response);
+
+                //en cas d'erreur
+                if(!response.success) {
+                    alert(response.data);
+                    return;
+                }
+                //console.log(response.data)
+                let responseDiv = document.getElementById('home-photos');
+                responseDiv.innerHTML = "";
+                let data = response.data;
+                data.forEach(post => {
+                    var cardPhoto = document.createElement("div");
+                    cardPhoto.classList.add('card-photo');
+                    var img = document.createElement('img');
+                    img.src = post.img_url;
+                    img.alt = post.img_alt;
+                    cardPhoto.appendChild(img);
+                    responseDiv.appendChild(cardPhoto);
+                    //var nouvelElement = document.createElement("img");
+                    //var texte = document.createTextNode(post.post_title);
+                    //nouvelElement.appendChild(texte);
+                });
+                //en cas de réussite
+                
+            })
+            });
+        }
+    });
+
+    /*if(selectFormats) {
+        selectFormats.addEventListener('change', (event) => {
+
+            //données du formulaires
+            var form = document.getElementById('home-filters');
+            var ajaxUrl = form.getAttribute("action");
+            var action = document.querySelector("input[name=action]");
+            action = action.value;
+            var nonce = document.querySelector("input[name=nonce]");
+            nonce = nonce.value;
+            var format = selectFormats.value;
+            var data = {
+                'action': action,
+                'nonce': nonce,
+                'format': format,
+            };
+            //console.log(data);
+            //console.log(ajaxUrl);
+            //var y = arr["one"];
+
+            //requête AJAX
+            fetch(ajaxUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'Cache-Control': 'no-cache',
+                },
+                body: new URLSearchParams(data),
+            })
+            .then(response => response.json())
+            .then(response => {
+                console.log(response);
+
+                //en cas d'erreur
+                if(!response.success) {
+                    alert(response.data);
+                    return;
+                }
+                let responseDiv = document.getElementById('response');
+                responseDiv.innerHTML = "";
+                let data = response.data;
+                data.forEach(post => {
+                    //console.log(post);
+                    var nouvelElement = document.createElement("p");
+                    var texte = document.createTextNode(post.post_title);
+                    nouvelElement.appendChild(texte);
+                    responseDiv.appendChild(nouvelElement);
+                });
+                //en cas de réussite
+                
+            })
+        });
+    }*/
+
+});
