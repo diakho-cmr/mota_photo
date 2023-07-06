@@ -45,23 +45,82 @@ get_header(); ?>
             </form>
         </div>
 
-        <div id="home-photos" class="cards-photo-container ">
-            <?php
-            $args = [
-                'post_type' => 'photo',
-                'post_status' => 'publish',
-                'numberposts' => -1,
-            ];
-            $photos = get_posts($args);
-            ?>
-            <?php
-            foreach($photos as $photo) {
-                if(!empty($photo)) {
-                    set_query_var('photo', $photo);
-                    get_template_part('template-parts/photo-card');
+        <div id="home-photos">
+            <div class="cards-photo-container">
+                <?php
+                $args = [
+                    'post_type'         => 'photo',
+                    'post_status'       => 'publish',
+                    'numberposts'       => -1,
+                    //'posts_per_page'    => 8,
+                    //'paged'             => $paged
+                ];
+                //$query = new WP_Query($args);
+
+                $photos = get_posts($args);
+                if(count($photos) > 8) {
+                    $firstArray = array_slice($photos, 0, 8);
+                    foreach($firstArray as $photo) {
+                        if(!empty($photo)) {
+                            set_query_var('photo', $photo);
+                            get_template_part('template-parts/photo-card');
+                        }
+                    } 
+                ?>
+                <div class="button-container">
+                    <div class="grey-button load-more-button">
+                        <span class="button-text">Charger plus</span>
+                    </div>
+                </div>
+                <?php
+                $secondArray = array_slice($photos, 8);
+                $chunkSize = 12;
+                $chunkedArrays = [];
+                for ($i = 0; $i < count($secondArray); $i += $chunkSize) {
+                    $chunk = array_slice($secondArray, $i, $i + $chunkSize);
+                    $chunkedArrays[] = $chunk;
                 }
-            }
-            ?>
+                $iteration = 0;
+                foreach ($chunkedArrays as $array) : ?>
+                    <div class="display-none">
+                        <?php
+                        foreach($array as $photo) {
+                            if(!empty($photo)) {
+                                set_query_var('photo', $photo);
+                                get_template_part('template-parts/photo-card');
+                            }
+                        }
+                        $iteration++;
+                        if($iteration !== count($chunkedArrays)) : ?>
+                            <div class="button-container">
+                                <div class="grey-button load-more-button">
+                                    <span class="button-text">Charger plus</span>
+                                </div>
+                            </div>
+                        <?php endif; ?>
+                    </div>
+                <?php endforeach; ?>
+                    
+                <?php
+                } else {
+                    foreach($photos as $photo) {
+                        if(!empty($photo)) {
+                            set_query_var('photo', $photo);
+                            get_template_part('template-parts/photo-card');
+                        }
+                    }
+                }
+
+                /*while ($query->have_posts() ) {
+                    $query->the_post();
+                    set_query_var('photo', $post);
+                    get_template_part('template-parts/photo-card');
+                }*/
+                ?>
+
+                <!--<button id="load-more-button">Charger plus</button>-->
+            </div>
+    
         </div>
 
     </div>

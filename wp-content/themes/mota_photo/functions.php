@@ -195,7 +195,8 @@ function custom_get_post_img ($post) {
     $alt = '';
     if(!empty($post)) {
         $post_id = $post->ID;
-        $alt = get_post_meta($post_id, '_wp_attachment_image_alt', true); ;
+        $thumbnail_id = get_post_thumbnail_id($post->ID);
+        $alt = get_post_meta($thumbnail_id, '_wp_attachment_image_alt', true); ;
         $url = get_the_post_thumbnail_url($post_id);
     }
     return [
@@ -245,11 +246,16 @@ function sort_posts_photo() {
     $category = isset($_REQUEST['category']) && $_REQUEST['category'] !== 'default' ? sanitize_text_field($_REQUEST['category']) : $categories;
     $sort = isset($_REQUEST['sort']) && $_REQUEST['sort'] !== 'default'  ? sanitize_text_field($_REQUEST['sort']) : "DESC";
 
+    //$paged = (get_query_var('page')) ? get_query_var('page') : 1;
+    //$posts_per_page = 8;
+
     //Requête des posts
     $args = array(
         'post_type'         => 'photo', // Le type de contenu (ici, 'post'),
         'post_status'       => 'publish',
         'numberposts'       => -1,
+        //'posts_per_page'    => $posts_per_page,
+        //'paged'             => $paged,
         'order'             => $sort,
         'tax_query'         => array(
         'relation'          => 'AND',
@@ -270,7 +276,6 @@ function sort_posts_photo() {
 
     $posts_data = [];
     foreach ($posts as $post) {
-        $post_data = [];
         $img_url = custom_get_post_img($post)['url'];
         $img_alt = custom_get_post_img($post)['alt'];
         $ref = get_field('reference', $post->ID);
@@ -280,7 +285,7 @@ function sort_posts_photo() {
                 $cat_term = $term->name;
             }
         }
-        $post_data [] =
+        $post_data =
         [
             'img_url' => $img_url,
             'img_alt' => $img_alt,
@@ -291,7 +296,7 @@ function sort_posts_photo() {
     }
     
     //envoyer les données au navigateur
-	wp_send_json_success($post_data);
+	wp_send_json_success($posts_data);
 
     wp_reset_postdata();
     

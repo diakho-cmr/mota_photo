@@ -50,7 +50,7 @@ get_header(); ?>
             <!--IMAGE-->
             <?php if(has_post_thumbnail()) : ?>
                 <?php
-                $thumbnail_id = get_post_thumbnail_id( $post->ID );
+                $thumbnail_id = get_post_thumbnail_id($post->ID);
                 $thumbnail_alt = get_post_meta($thumbnail_id, '_wp_attachment_image_alt', true);
                 $thumbnail_url = get_the_post_thumbnail_url();
                 ?>
@@ -126,7 +126,7 @@ get_header(); ?>
                     }
                     ?>
                 </div>
-                <div class="all-photo-posts">
+                <div class="button-container">
                     <div class="grey-button">
                         <a href="#" class=""><span class="button-text">Toutes les photos</span></a>
                     </div>
