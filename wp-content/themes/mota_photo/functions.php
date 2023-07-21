@@ -28,8 +28,27 @@ function mota_photo_styles_scripts() {
         '1.0', 
         true 
     );
+
+    wp_enqueue_script( 
+        'mota-photo-lightbox',
+        get_template_directory_uri() . '/assets/js/lightbox.js', 
+        array('jquery'),
+        '1.0',
+        true 
+    );
 }
 add_action( 'wp_enqueue_scripts', 'mota_photo_styles_scripts' );
+
+function add_type_attribute($tag, $handle, $src) {
+    // if not your script, do nothing and return original $tag
+    if ( 'mota-photo-lightbox' !== $handle ) {
+        return $tag;
+    }
+    // change the script tag by adding type="module" and return it.
+    $tag = '<script type="module" src="' . esc_url( $src ) . '" id="mota-photo-lightbox-js"></script>';
+    return $tag;
+}
+add_filter('script_loader_tag', 'add_type_attribute' , 10, 3);
 
 /**
  * Add theme supports
@@ -245,17 +264,15 @@ function sort_posts_photo() {
     $format = isset($_REQUEST['format']) && $_REQUEST['format'] !== 'default' ? sanitize_text_field($_REQUEST['format']) : $formats;
     $category = isset($_REQUEST['category']) && $_REQUEST['category'] !== 'default' ? sanitize_text_field($_REQUEST['category']) : $categories;
     $sort = isset($_REQUEST['sort']) && $_REQUEST['sort'] !== 'default'  ? sanitize_text_field($_REQUEST['sort']) : "DESC";
-
-    //$paged = (get_query_var('page')) ? get_query_var('page') : 1;
-    //$posts_per_page = 8;
+    $offset = isset($_REQUEST['offset']) ? sanitize_text_field($_REQUEST['offset'])  : '';
+    $number_posts = isset($_REQUEST['numberPosts']) ? sanitize_text_field($_REQUEST['numberPosts'])  : '';
 
     //Requête des posts
     $args = array(
-        'post_type'         => 'photo', // Le type de contenu (ici, 'post'),
+        'post_type'         => 'photo',
         'post_status'       => 'publish',
-        'numberposts'       => -1,
-        //'posts_per_page'    => $posts_per_page,
-        //'paged'             => $paged,
+        'numberposts'       => $number_posts,
+        'offset'            => $offset,
         'order'             => $sort,
         'tax_query'         => array(
         'relation'          => 'AND',
@@ -272,6 +289,7 @@ function sort_posts_photo() {
         ),
     );
     $posts = get_posts($args);
+    $published_posts = (new WP_Query($args))->found_posts;
     // End requête des posts
 
     $posts_data = [];
@@ -294,12 +312,19 @@ function sort_posts_photo() {
         ];
         $posts_data[] = $post_data;
     }
+
+    $global_data = 
+    [
+        'publishedPosts' => $published_posts,
+        'posts' => $posts_data,
+    ];
     
     //envoyer les données au navigateur
-	wp_send_json_success($posts_data);
+	wp_send_json_success($global_data);
 
     wp_reset_postdata();
     
 }
+
 
 

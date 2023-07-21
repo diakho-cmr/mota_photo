@@ -8,8 +8,18 @@ get_header(); ?>
 <div class="home-container">
 
     <div class="home-banner">
-        <?php if (!empty(custom_get_post_img($post)['url'])) : ?>
-            <img src="<?= custom_get_post_img($post)['url'] ?>" alt="<?= custom_get_post_img($post)['url'] ?>">
+        <?php
+         $args = [
+            'post_type'         => 'photo',
+            'post_status'       => 'publish',
+            'numberposts'       => 1,
+            'orderby'           => 'rand',
+        ];
+        $photos = get_posts($args);
+        $photo_banner = current($photos);
+        ?>
+        <?php if (!empty(custom_get_post_img($photo_banner)['url'])) : ?>
+            <img src="<?= custom_get_post_img($photo_banner)['url'] ?>" alt="<?= custom_get_post_img($photo_banner)['url'] ?>">
         <?php endif ?>
     </div>
 
@@ -42,89 +52,17 @@ get_header(); ?>
 
                 <input type="hidden" name="nonce" value="<?= wp_create_nonce( 'sort_posts_photo' ); ?>"> 
                 <input type="hidden" name="action" value="sort_posts_photo">
+                <input type="hidden" name="publishedPosts" value="<?= $published_posts = wp_count_posts('photo')->publish; ?>">
+                <input type="hidden" name="numberPosts" value="8">
+                <input type="hidden" name="offset" value="0">
             </form>
         </div>
 
         <div id="home-photos">
-            <div class="cards-photo-container">
-                <?php
-                $args = [
-                    'post_type'         => 'photo',
-                    'post_status'       => 'publish',
-                    'numberposts'       => -1,
-                    //'posts_per_page'    => 8,
-                    //'paged'             => $paged
-                ];
-                //$query = new WP_Query($args);
-
-                $photos = get_posts($args);
-                if(count($photos) > 8) {
-                    $firstArray = array_slice($photos, 0, 8);
-                    foreach($firstArray as $photo) {
-                        if(!empty($photo)) {
-                            set_query_var('photo', $photo);
-                            get_template_part('template-parts/photo-card');
-                        }
-                    } 
-                ?>
-                <div class="button-container">
-                    <div class="grey-button load-more-button">
-                        <span class="button-text">Charger plus</span>
-                    </div>
-                </div>
-                <?php
-                $secondArray = array_slice($photos, 8);
-                $chunkSize = 12;
-                $chunkedArrays = [];
-                for ($i = 0; $i < count($secondArray); $i += $chunkSize) {
-                    $chunk = array_slice($secondArray, $i, $i + $chunkSize);
-                    $chunkedArrays[] = $chunk;
-                }
-                $iteration = 0;
-                foreach ($chunkedArrays as $array) : ?>
-                    <div class="display-none">
-                        <?php
-                        foreach($array as $photo) {
-                            if(!empty($photo)) {
-                                set_query_var('photo', $photo);
-                                get_template_part('template-parts/photo-card');
-                            }
-                        }
-                        $iteration++;
-                        if($iteration !== count($chunkedArrays)) : ?>
-                            <div class="button-container">
-                                <div class="grey-button load-more-button">
-                                    <span class="button-text">Charger plus</span>
-                                </div>
-                            </div>
-                        <?php endif; ?>
-                    </div>
-                <?php endforeach; ?>
-                    
-                <?php
-                } else {
-                    foreach($photos as $photo) {
-                        if(!empty($photo)) {
-                            set_query_var('photo', $photo);
-                            get_template_part('template-parts/photo-card');
-                        }
-                    }
-                }
-
-                /*while ($query->have_posts() ) {
-                    $query->the_post();
-                    set_query_var('photo', $post);
-                    get_template_part('template-parts/photo-card');
-                }*/
-                ?>
-
-                <!--<button id="load-more-button">Charger plus</button>-->
-            </div>
-    
         </div>
 
     </div>
-
+    
 </div>
 
 <?php get_footer(); ?>

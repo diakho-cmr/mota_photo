@@ -4,6 +4,8 @@
  */
  
 get_header(); ?>
+
+<?php get_template_part('template-parts/lightbox.php'); ?>
  
 <?php while ( have_posts() ) : the_post(); ?>
 
@@ -16,7 +18,7 @@ get_header(); ?>
                 <div class="padding">
                     <?php the_title('<h1 class="title-h2">', '</h1>'); ?>
                     <!--REF-->
-                    <p class="photo-desc">Référence :<?= get_field('reference'); ?></p>
+                    <p class="photo-desc">Référence : <?= get_field('reference'); ?></p>
                     <!--END REF-->
                     <!--CATEGORY-->
                     <?php
@@ -64,8 +66,8 @@ get_header(); ?>
         <div class="post-photo-more padding">
             <div class= "post-photo-contact">
                 <p>Cette photo vous intéresse ?</p>
-                <div class="grey-button">
-                    <a href="#" class="photo-contact-link"><span class="button-text">Contact</span></a>
+                <div class="grey-button post-photo-contact-button">
+                    <span class="button-text">Contact</span>
                 </div>
             </div>
                 <?php 
@@ -133,6 +135,8 @@ get_header(); ?>
                 </div>
             </div>
         <?php endif; ?>
+
+        <?php get_template_part('template-parts/lightbox'); ?>
 
     </div><!-- END POST PHOTO CONTAINER -->
  

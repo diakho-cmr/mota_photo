@@ -11,10 +11,17 @@ if(window.innerWidth <= 600) {
 } else {
     var linkOpenModal = document.querySelector(".main-header-desktop .main-header-nav .menu-contact-link");
 }
+var singlePhotocontact = document.querySelector(".post-photo-contact-button");
 
 linkOpenModal.addEventListener("click", function() {
     contactModal.classList.toggle('contact-modal-displayed');
 });
+
+if(singlePhotocontact) {
+    singlePhotocontact.addEventListener("click", function() {
+        contactModal.classList.toggle('contact-modal-displayed');
+    });
+}
 
 window.addEventListener("click", function(event) {
     if (event.target == contactModal) {
@@ -26,6 +33,7 @@ contactForm.addEventListener("submit", function(event) {
     event.preventDefault();
     contactModal.classList.toggle('contact-modal-displayed');
 });
+
 
 /**
  * MAIN MENU MOBILE
@@ -96,7 +104,6 @@ if(arrowNext) {
  * 
  */
 function createPhotoCard(post, responseDiv) {
-    //console.log(post);
     var cardPhoto = document.createElement("div");
     cardPhoto.classList.add('card-photo');
     var img = document.createElement('img');
@@ -134,11 +141,13 @@ function createPhotoCard(post, responseDiv) {
  * @param {DIV} responseDiv - the container that hosts the button.
  * 
  */
+
 function createButtonMore(responseDiv) {
     var buttonContainer = document.createElement('div');
     buttonContainer.classList.add('button-container');
     var buttonDiv = document.createElement('div');
     buttonDiv.classList.add('grey-button', 'load-more-button');
+    buttonDiv.setAttribute('id','button');
     var buttonMore = document.createElement('span');
     buttonMore.classList.add('button-text');
     var buttonText = document.createTextNode('Charger plus');
@@ -149,140 +158,111 @@ function createButtonMore(responseDiv) {
     buttonMore.appendChild(buttonText);
 }
 
+function getInputsValues() {
+    let inputsValues = new Object;
+    inputsValues['offset'] = document.querySelector("input[name=offset]").value;
+    inputsValues['numberPosts']  = document.querySelector("input[name=numberPosts]").value;
+    return inputsValues;
+}
 
-/**
- * AJAX request to display photos on homepage (Filters, sorting and load more button)
- * Works wih hook wp_ajax_sort_posts_photo (see the custom function sort_posts_photo() in functions.php)
- */
+function queryPosts(offset, numberPosts, filterValue) {
+
+    let offsetValue = parseInt(offset);
+    let numberPostsValue = parseInt(numberPosts);
+
+    var homeForm = document.getElementById('home-filters');
+    var homeAjaxUrl = homeForm.getAttribute("action");
+    var homeAction = document.querySelector("input[name=action]").value;
+    var homeNonce = document.querySelector("input[name=nonce]").value;
+    var homeFormat = document.querySelector("select[name=formats]").value;
+    var homeCategory = document.querySelector("select[name=categories]").value;
+    var homeSort = document.querySelector("select[name=sort]").value;
+
+    var postsData = {
+        'action': homeAction,
+        'nonce': homeNonce,
+        'format': homeFormat,
+        'category': homeCategory,
+        'sort': homeSort,
+        'numberPosts' : numberPosts,
+        'offset' : offset,
+    };
+
+    fetch(homeAjaxUrl, { //en faire une fonction
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'Cache-Control': 'no-cache',
+        },
+        body: new URLSearchParams(postsData),
+    })
+    .then(response => response.json())
+    .then(response => {
+
+        //error
+        if(!response.success) {
+            console.log('error');
+            alert(response.data);
+        } 
+
+        //success
+        let data = response.data; //the response of the AJAX request that contains the data of the photo posts
+        let posts = data.posts;
+        let total = data.publishedPosts;
+        let responseDiv = document.getElementById('home-photos'); // the container that hosts photos
+        
+        if(filterValue) {
+            responseDiv.innerHTML = "";
+        }
+
+        var div = document.createElement('div');
+        div.classList.add('cards-photo-container');
+
+        posts.forEach(post => {
+            createPhotoCard(post, div);
+        });
+
+        responseDiv.appendChild(div);
+
+        if(total > (offsetValue + numberPostsValue)) { 
+
+            document.querySelector("input[name=offset]").value = offsetValue + numberPostsValue;
+            document.querySelector("input[name=numberPosts]").value = 12;
+
+            createButtonMore(responseDiv);
+            let button = document.getElementById('button');
+
+            let inputsValues = getInputsValues();
+            button.addEventListener('click', (e) => {
+                let buttonContainer = button.parentNode;
+                buttonContainer.classList.add('display-none');
+                queryPosts(inputsValues.offset, inputsValues.numberPosts, '');
+            });
+        }
+        
+    });
+    
+}
+
 document.addEventListener("DOMContentLoaded", function() {
 
-    //Detect filter change
-    var filters = document.querySelectorAll(".filter");
+    let inputsValues = getInputsValues();
+    queryPosts(inputsValues.offset, inputsValues.numberPosts, '');
+    
+    let filters = document.querySelectorAll(".filter");
     filters.forEach(filter => {
         if(filter) {
             filter.addEventListener('change', (e) => {
-
-                //get form data
-                var form = document.getElementById('home-filters');
-                var ajaxUrl = form.getAttribute("action");
-                var action = document.querySelector("input[name=action]").value;
-                var nonce = document.querySelector("input[name=nonce]").value;
-                var format = document.querySelector("select[name=formats]").value;
-                var category = document.querySelector("select[name=categories]").value;
-                var sort = document.querySelector("select[name=sort]").value;
                 
-                var data = {
-                    'action': action,
-                    'nonce': nonce,
-                    'format': format,
-                    'category': category,
-                    'sort': sort
-                };
+                document.querySelector("input[name=offset]").value = 0;
+                document.querySelector("input[name=numberPosts]").value = 8;
+                
+                let inputsValues = getInputsValues();
+                let filterValue = filter.value;
+                queryPosts(inputsValues.offset, inputsValues.numberPosts, filterValue);
 
-                //AJAX Request
-                fetch(ajaxUrl, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded',
-                        'Cache-Control': 'no-cache',
-                    },
-                    body: new URLSearchParams(data),
-                })
-                .then(response => response.json())
-                .then(response => {
-
-                    //error
-                    if(!response.success) {
-                        alert(response.data);
-                        return;
-                    }
-
-                    //success
-                    let responseDiv = document.getElementById('home-photos'); // the container that hosts photos
-                    responseDiv.innerHTML = "";
-                    let data = response.data; //the response of the AJAX request that contains the data of the photo posts
-
-                    //Check if there are more than 8 photos to display or not the more photos button
-                    if(data.length > 8) {
-
-                        //Retrieve the first 8 posts of the initial array that contains all the posts
-                        var firstArray = data.slice(0,8); 
-                        var div = document.createElement('div');
-                        div.classList.add('cards-photo-container');
-
-                        //Display the first 8 photos with the button
-                        firstArray.forEach(post => {
-                            createPhotoCard(post, div);
-                        });
-                        responseDiv.appendChild(div);
-                        createButtonMore(responseDiv);
-
-                        //Divider by array of 12 the remaining posts
-                        var secondArray = data.slice(8);
-                        var chunkSize = 12;
-                        var chunkedArrays = [];
-                        for (let i = 0; i < secondArray.length; i += chunkSize) {
-                            const chunk = secondArray.slice(i, i + chunkSize);
-                            chunkedArrays.push(chunk);
-                        }
-
-                        //Display them with the button
-                        var iteration = 0;
-                        chunkedArrays.forEach(array => {
-                            var div = document.createElement('div');
-                            div.classList.add('display-none');
-                            responseDiv.appendChild(div);
-                            array.forEach(post => {
-                                createPhotoCard(post, div);
-                            });
-                            iteration++;
-                            //Do not display the button if it is the last of the only array
-                            if(iteration !== chunkedArrays.length) {
-                                createButtonMore(responseDiv);
-                            }
-                        });
-
-                        //Display photos by 12 when the button is clicked
-                        var morePhotos = document.querySelectorAll('.load-more-button');
-                        morePhotos.forEach(morePhoto => {
-                            morePhoto.addEventListener("click", (event) => {
-                                var moreContainer = morePhoto.parentNode;
-                                if (moreContainer.nextElementSibling) {
-                                    moreContainer.nextElementSibling.classList.remove('display-none');
-                                    moreContainer.nextElementSibling.classList.add('cards-photo-container');
-                                }
-                            });
-                        });
-
-                    //If the main query returns less than 12 posts
-                    } else {
-                        var div = document.createElement('div');
-                        div.classList.add('cards-photo-container');
-                        data.forEach(post => {
-                            createPhotoCard(post, div);
-                        });
-                        responseDiv.appendChild(div);
-                    }
-                });
             });
         }
-    });
-
-    /**
-     * Display photos by 12 when the button is clicked 
-     * Only for the first request without user interaction (default query when the user arrives homepage)
-     */
-    var homeMoreButton = document.querySelectorAll('.load-more-button');
-    console.log(homeMoreButton);
-    homeMoreButton.forEach(morePhoto => {
-        morePhoto.addEventListener("click", (event) => {
-            console.log('cliqué');
-            var moreContainer = morePhoto.parentNode;
-            if (moreContainer.nextElementSibling) {
-                moreContainer.nextElementSibling.classList.remove('display-none');
-                moreContainer.nextElementSibling.classList.add('cards-photo-container');
-            }
-        });
     });
 
 });

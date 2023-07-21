@@ -1,7 +1,7 @@
 <?php $photo = get_query_var('photo'); ?>
 <?php if(custom_get_post_img($photo)['url']) : ?>
     <div class="card-photo">
-        <img src="<?= custom_get_post_img($photo)['url'] ?>" alt="<?= custom_get_post_img($photo)['alt'] ?>">
+        <img src="<?= custom_get_post_img($photo)['url'] ?>" alt="<?= custom_get_post_img($photo)['alt'] ?>" class="card-photo-img">
         <i class="photo-icon fa-regular fa-eye fa-lg"></i>
         <div class="photo-icon circle">
             <i class="photo-icon fa-solid fa-expand fa-lg"></i>
