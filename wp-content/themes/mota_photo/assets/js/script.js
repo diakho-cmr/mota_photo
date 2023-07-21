@@ -158,6 +158,9 @@ function createButtonMore(responseDiv) {
     buttonMore.appendChild(buttonText);
 }
 
+/**
+ * This function retrieves the values of the inputs offset and number posts in homepage form
+ */
 function getInputsValues() {
     let inputsValues = new Object;
     inputsValues['offset'] = document.querySelector("input[name=offset]").value;
@@ -165,6 +168,13 @@ function getInputsValues() {
     return inputsValues;
 }
 
+/**
+ * This function launches AJAX requests necessary to display photos in homepage
+ * @param {int} offset 
+ * @param {int} numberPosts
+ * @param {string} filterValue
+ * 
+ */
 function queryPosts(offset, numberPosts, filterValue) {
 
     let offsetValue = parseInt(offset);
@@ -211,7 +221,7 @@ function queryPosts(offset, numberPosts, filterValue) {
         let total = data.publishedPosts;
         let responseDiv = document.getElementById('home-photos'); // the container that hosts photos
         
-        if(filterValue) {
+        if(filterValue) { //reset only if change on filter
             responseDiv.innerHTML = "";
         }
 
@@ -224,7 +234,7 @@ function queryPosts(offset, numberPosts, filterValue) {
 
         responseDiv.appendChild(div);
 
-        if(total > (offsetValue + numberPostsValue)) { 
+        if(total > (offsetValue + numberPostsValue)) { //check the quantity to display the button or not
 
             document.querySelector("input[name=offset]").value = offsetValue + numberPostsValue;
             document.querySelector("input[name=numberPosts]").value = 12;
@@ -244,6 +254,10 @@ function queryPosts(offset, numberPosts, filterValue) {
     
 }
 
+/**
+ * Make the first display in homepage (initial query)
+ * Detect change on homepage filters
+ */
 document.addEventListener("DOMContentLoaded", function() {
 
     let inputsValues = getInputsValues();
