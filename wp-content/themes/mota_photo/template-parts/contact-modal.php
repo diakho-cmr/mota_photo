@@ -18,7 +18,7 @@
 
             <div class="input-group">
                 <label for="nom">Réf. photo</label>
-                <input type="text" id="ref-photo" name="nom">
+                <input type="text" id="ref-photo" name="ref-photo">
             </div>
             
             <div class="input-group">

@@ -13,9 +13,17 @@ function mota_photo_styles_scripts() {
         array(),
         '8.0.1'
     );
+
 	wp_enqueue_style( 
         'mota-photo-styles', 
         get_template_directory_uri() . '/assets/css/global-style.css',
+        array(),
+        '1.0'
+    );
+
+    wp_enqueue_style( 
+        'mota-photo-global-mobile', 
+        get_template_directory_uri() . '/assets/css/global-mobile.css',
         array(),
         '1.0'
     );
@@ -24,6 +32,38 @@ function mota_photo_styles_scripts() {
 	wp_enqueue_script( 
         'mota-photo-scripts',
         get_template_directory_uri() . '/assets/js/script.js', 
+        array('jquery'),
+        '1.0', 
+        true 
+    );
+
+    wp_enqueue_script( 
+        'mota-photo-contact-modal',
+        get_template_directory_uri() . '/assets/js/contact-modal.js', 
+        array('jquery'),
+        '1.0', 
+        true 
+    );
+
+    wp_enqueue_script( 
+        'mota-photo-single-post-nav',
+        get_template_directory_uri() . '/assets/js/single-post-nav.js', 
+        array('jquery'),
+        '1.0', 
+        true 
+    );
+
+    wp_enqueue_script( 
+        'mota-photo-menu-mobile',
+        get_template_directory_uri() . '/assets/js/menu-mobile.js', 
+        array('jquery'),
+        '1.0', 
+        true 
+    );
+
+    wp_enqueue_script( 
+        'mota-photo-home-filters',
+        get_template_directory_uri() . '/assets/js/home-filters.js', 
         array('jquery'),
         '1.0', 
         true 

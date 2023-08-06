@@ -10,16 +10,55 @@ class Lightbox {
         const links = Array.from(document.querySelectorAll('.card-photo-img'));
         const gallery = links.map(link => link.getAttribute('src'));
 
+        let cards = [];
+        document.querySelectorAll('.card-photo-img').forEach(card => {
+            let navigation = false;
+            if (card.classList.contains('page')) { navigation = true; }
+            let cardSrc = card.getAttribute('src');
+            let nextSibling = card.nextElementSibling;
+            while (nextSibling && !nextSibling.classList.contains('photo-info')) {
+                nextSibling = nextSibling.nextElementSibling;
+            }
+            let photoInfos = nextSibling.children;
+            let ref = null;
+            let category = null;
+            for (let info of photoInfos) {
+                if(info.classList.contains("ref")) {
+                    ref = info.textContent;
+                }
+                if(info.classList.contains("category")) {
+                    category = info.textContent;
+                }
+            };
+            let cardArray = [];
+            cardArray['src']  = cardSrc;
+            cardArray['ref'] = ref;
+            cardArray['category'] = category;
+            cards.push(cardArray);
+        });
+
         let zoomIcons = document.querySelectorAll('.circle');
         zoomIcons.forEach(icon => {
             let prevSibling = icon.previousSibling;
+            let nextSibling = icon.nextElementSibling;
+            let photoInfos = nextSibling.children;
+            let ref = null;
+            let category = null;
+            for (let info of photoInfos) {
+                if(info.classList.contains("ref")) {
+                    ref = info.textContent;
+                }
+                if(info.classList.contains("category")) {
+                    category = info.textContent;
+                }
+            };
             while (prevSibling && prevSibling.nodeName !== "IMG") {
                 prevSibling = prevSibling.previousSibling;
             }
             let url = prevSibling.src;
             icon.addEventListener('click', e => {
                 e.preventDefault();
-                new Lightbox(url, gallery);
+                new Lightbox(url, cards, ref, category, navigation);
             });
         })
         
@@ -30,10 +69,13 @@ class Lightbox {
      * @param {string} url Image URL
      * @param {string[]} images Chemins des images de la lightbox
      */
-    constructor (url, images) {
-        this.element = this.buildDom(url);
+    constructor (url, images, ref, category) {
+        this.element = this.buildDom(url, navigation);
         this.images = images;
+        this.ref = ref;
+        this.category = category;
         this.loadImage(url);
+        this.addInfo(ref, category);
         this.onKeyUp = this.onKeyUp.bind(this);
         document.body.appendChild(this.element);
         document.addEventListener('keyup', this.onKeyUp);
@@ -45,18 +87,24 @@ class Lightbox {
      */
     loadImage(url) {
         this.url = null;
-        const image = new Image();
-        const container = this.element.querySelector('.lightbox__container');
-        const loader = document.createElement('div');
-        loader.classList.add('lightbox__loader');
-        container.innerHTML = '';
-        container.appendChild(loader);
-        image.onload = () => {
-            container.removeChild(loader);
-            container.appendChild(image);
+        const img = this.element.querySelector('.lightbox-img');
+        img.onload = () => {
             this.url = url
         }
-        image.src = url;
+        img.src = url;
+    }
+
+    /**
+     * 
+     * @param {string} ref Image reference
+     * @param {string} category Image category
+     */
+    addInfo(ref, category) {
+        const infoRef = this.element.querySelector('.infos-ref');
+        const infoCat = this.element.querySelector('.infos-cat');
+        infoRef.innerHTML = ref;
+        infoCat.innerHTML = category;
+        const lightboxContainers = this.element.querySelector('.lightbox-container');
     }
 
     /**
@@ -79,6 +127,7 @@ class Lightbox {
      */
     close (e) {
         e.preventDefault;
+        e.preventDefault;
         this.element.classList.add('fadeOut');
         window.setTimeout(() => {
             this.element.parentElement.removeChild(this.element);
@@ -89,25 +138,28 @@ class Lightbox {
     /**
      * @param {MouseEvent/KeyboardEvent}  
      */
-    next(e) {
+    next(e, navigation) {
         e.preventDefault;
-        let i = this.images.findIndex(image => image == this.url);
+        let i = this.images.findIndex(image => image.src == this.url);
         if(i == this.images.length - 1) {
             i = -1;
         }
-        this.loadImage(this.images[i + 1]);
+        this.loadImage(this.images[i + 1].src);
+        this.addInfo(this.images[i + 1].ref, this.images[i + 1].category);
     }
+
 
     /**
      * @param {MouseEvent/KeyboardEvent} e  
      */
     prev(e) {
         e.preventDefault;
-        let i = this.images.findIndex(image => image == this.url);
+        let i = this.images.findIndex(image => image.src == this.url);
         if(i == 0 ) {
             i = this.images.length;
         }
-        this.loadImage(this.images[i - 1]);
+        this.loadImage(this.images[i - 1].src);
+        this.addInfo(this.images[i - 1].ref, this.images[i - 1].category);
     }
 
     /**
@@ -115,16 +167,43 @@ class Lightbox {
      * @param {string} url Image URL
      * @return {HTMLElement}
      */
-    buildDom(url) {
+    buildDom(url, navigation) {
         const dom = document.createElement('div');
         dom.classList.add('lightbox');
-        dom.innerHTML = `<button class="lightbox__close">Fermer</button>
-            <button class="lightbox__next">Suivant</button>
-            <button class="lightbox__prev">Précédent</button>
-            <div class="lightbox__container"></div>`;
-        dom.querySelector('.lightbox__close').addEventListener('click', this.close.bind(this));
-        dom.querySelector('.lightbox__next').addEventListener('click', this.next.bind(this));
-        dom.querySelector('.lightbox__prev').addEventListener('click', this.prev.bind(this));
+        if(navigation == true) {
+            dom.innerHTML = `<i class="lightbox-button fa-solid fa-xmark lightbox-close"></i>
+            <div class="lightbox-button lightbox-next">
+            <p class="button-text">Suivante</p>
+            <i class="fa-solid fa-arrow-right"></i>
+            </div>
+            <div class="lightbox-button lightbox-prev">
+            <i class="fa-solid fa-arrow-left"></i>
+            <p class="button-text">Précedente</p>
+            </div>
+            <div class="lightbox-container">
+            <div class="lightbox-img-container">
+            <img class="lightbox-img" src="" alt="">
+            </div>
+            <div class="lightbox-infos">
+            <span class="infos-ref photo-desc"></span>
+            <span class="infos-cat photo-desc"></span>
+            </div>
+            </div>`;
+        } else {
+            dom.innerHTML = `<i class="lightbox-button fa-solid fa-xmark lightbox-close"></i>
+            <div class="lightbox-container">
+            <div class="lightbox-img-container">
+            <img class="lightbox-img" src="" alt="">
+            </div>
+            <div class="lightbox-infos">
+            <span class="infos-ref photo-desc"></span>
+            <span class="infos-cat photo-desc"></span>
+            </div>
+            </div>`;
+        }
+        if (dom.querySelector('.lightbox-close')) { dom.querySelector('.lightbox-close').addEventListener('click', this.close.bind(this)); }
+        if (dom.querySelector('.lightbox-next')) { dom.querySelector('.lightbox-next').addEventListener('click', this.next.bind(this)); }
+        if (dom.querySelector('.lightbox-prev')) { dom.querySelector('.lightbox-prev').addEventListener('click', this.prev.bind(this)); }
         return dom;
     }
 }

@@ -18,7 +18,7 @@ get_header(); ?>
                 <div class="padding">
                     <?php the_title('<h1 class="title-h2">', '</h1>'); ?>
                     <!--REF-->
-                    <p class="photo-desc">Référence : <?= get_field('reference'); ?></p>
+                    <p class="photo-desc">Référence : <span class="photo-ref"><?= get_field('reference'); ?></span></p>
                     <!--END REF-->
                     <!--CATEGORY-->
                     <?php
@@ -135,8 +135,6 @@ get_header(); ?>
                 </div>
             </div>
         <?php endif; ?>
-
-        <?php get_template_part('template-parts/lightbox'); ?>
 
     </div><!-- END POST PHOTO CONTAINER -->
  
