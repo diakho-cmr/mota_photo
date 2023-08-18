@@ -31,7 +31,7 @@ function mota_photo_styles_scripts() {
     //scripts JS
 	wp_enqueue_script( 
         'mota-photo-scripts',
-        get_template_directory_uri() . '/assets/js/script.js', 
+        get_template_directory_uri() . '/assets/js/single-post.js',
         array('jquery'),
         '1.0', 
         true 
@@ -79,14 +79,23 @@ function mota_photo_styles_scripts() {
 }
 add_action( 'wp_enqueue_scripts', 'mota_photo_styles_scripts' );
 
+/**
+ * Change the script tag by adding type="module" and return it.
+ */
+
 function add_type_attribute($tag, $handle, $src) {
-    // if not your script, do nothing and return original $tag
-    if ( 'mota-photo-lightbox' !== $handle ) {
+    if ( 'mota-photo-home-filters' == $handle ) {
+        $tag = '<script type="module" src="' . esc_url( $src ) . '" id="mota-photo-home-filters-js"></script>';
+        return $tag;
+    } elseif ( 'mota-photo-scripts' == $handle ) {
+        $tag = '<script type="module" src="' . esc_url( $src ) . '" id="mota-photo-scripts-js"></script>';
+        return $tag;
+    } elseif ( 'mota-photo-lightbox' == $handle ) {
+        $tag = '<script type="module" src="' . esc_url( $src ) . '" id="mota-photo-lightbox-js"></script>';
+        return $tag;
+    } else {
         return $tag;
     }
-    // change the script tag by adding type="module" and return it.
-    $tag = '<script type="module" src="' . esc_url( $src ) . '" id="mota-photo-lightbox-js"></script>';
-    return $tag;
 }
 add_filter('script_loader_tag', 'add_type_attribute' , 10, 3);
 

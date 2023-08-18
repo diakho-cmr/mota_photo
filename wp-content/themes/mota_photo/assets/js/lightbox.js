@@ -12,8 +12,6 @@ class Lightbox {
 
         let cards = [];
         document.querySelectorAll('.card-photo-img').forEach(card => {
-            let navigation = false;
-            if (card.classList.contains('page')) { navigation = true; }
             let cardSrc = card.getAttribute('src');
             let nextSibling = card.nextElementSibling;
             while (nextSibling && !nextSibling.classList.contains('photo-info')) {
@@ -58,8 +56,13 @@ class Lightbox {
             let url = prevSibling.src;
             icon.addEventListener('click', e => {
                 e.preventDefault();
-                new Lightbox(url, cards, ref, category, navigation);
+                let nav = false;
+                if(icon.classList.contains('nav')) {
+                    nav = true;
+                }
+                new Lightbox(url, cards, ref, category, nav);
             });
+
         })
         
     }
@@ -69,8 +72,8 @@ class Lightbox {
      * @param {string} url Image URL
      * @param {string[]} images Chemins des images de la lightbox
      */
-    constructor (url, images, ref, category) {
-        this.element = this.buildDom(url, navigation);
+    constructor (url, images, ref, category, nav) {
+        this.element = this.buildDom(url, nav);
         this.images = images;
         this.ref = ref;
         this.category = category;
@@ -104,7 +107,6 @@ class Lightbox {
         const infoCat = this.element.querySelector('.infos-cat');
         infoRef.innerHTML = ref;
         infoCat.innerHTML = category;
-        const lightboxContainers = this.element.querySelector('.lightbox-container');
     }
 
     /**
@@ -129,16 +131,17 @@ class Lightbox {
         e.preventDefault;
         e.preventDefault;
         this.element.classList.add('fadeOut');
-        window.setTimeout(() => {
+        this.element.parentElement.removeChild(this.element);
+        /*window.setTimeout(() => {
             this.element.parentElement.removeChild(this.element);
-        }, 500);
+        }, 500);*/
         document.removeEventListener('keyup', this.onKeyUp);
     }
 
     /**
      * @param {MouseEvent/KeyboardEvent}  
      */
-    next(e, navigation) {
+    next(e, nav) {
         e.preventDefault;
         let i = this.images.findIndex(image => image.src == this.url);
         if(i == this.images.length - 1) {
@@ -167,10 +170,10 @@ class Lightbox {
      * @param {string} url Image URL
      * @return {HTMLElement}
      */
-    buildDom(url, navigation) {
+    buildDom(url, nav) {
         const dom = document.createElement('div');
         dom.classList.add('lightbox');
-        if(navigation == true) {
+        if(nav == true) {
             dom.innerHTML = `<i class="lightbox-button fa-solid fa-xmark lightbox-close"></i>
             <div class="lightbox-button lightbox-next">
             <p class="button-text">Suivante</p>
@@ -208,4 +211,4 @@ class Lightbox {
     }
 }
 
-Lightbox.init();
+export { Lightbox };
