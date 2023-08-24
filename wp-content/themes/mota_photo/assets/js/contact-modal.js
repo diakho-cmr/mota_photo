@@ -11,7 +11,7 @@ if(window.innerWidth <= 768) {
 } else {
     var linkOpenModal = document.querySelector(".main-header-desktop .main-header-nav .menu-contact-link");
 }
-var singlePhotocontact = document.querySelector(".post-photo-contact-button");
+const singlePhotocontact = document.querySelector(".post-photo-contact-button");
 
 linkOpenModal.addEventListener("click", function() {
     contactModal.classList.toggle('contact-modal-displayed');

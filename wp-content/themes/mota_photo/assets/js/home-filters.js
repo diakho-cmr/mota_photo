@@ -9,26 +9,26 @@ import { Lightbox } from "./lightbox.js";
  * 
  */
 function createPhotoCard(post, responseDiv) {
-    var cardPhoto = document.createElement("div");
+    const cardPhoto = document.createElement("div");
     cardPhoto.classList.add('card-photo');
-    var img = document.createElement('img');
+    const img = document.createElement('img');
     img.src = post.img_url;
     img.alt = post.img_alt;
     img.classList.add('card-photo-img', 'page');
-    var iconEye = document.createElement('i');
+    const iconEye = document.createElement('i');
     iconEye.classList.add('photo-icon', 'fa-regular', 'fa-eye', 'fa-lg');
-    var iconCircleDiv = document.createElement('div');
+    const iconCircleDiv = document.createElement('div');
     iconCircleDiv.classList.add('photo-icon', 'circle', 'nav');
-    var iconCircle = document.createElement('i');
+    const iconCircle = document.createElement('i');
     iconCircle.classList.add('photo-icon', 'fa-solid', 'fa-expand', 'fa-lg');
-    var infoDiv = document.createElement('div');
+    const infoDiv = document.createElement('div');
     infoDiv.classList.add('photo-info');
-    var ref = document.createElement('span');
+    const ref = document.createElement('span');
     ref.classList.add('photo-desc', 'ref');
-    var refTexte = document.createTextNode(post.ref);
-    var category = document.createElement('span');
+    const refTexte = document.createTextNode(post.ref);
+    const category = document.createElement('span');
     category.classList.add('photo-desc','category');
-    var term = document.createTextNode(post.term);
+    const term = document.createTextNode(post.term);
 
     responseDiv.appendChild(cardPhoto);
     cardPhoto.appendChild(img);
@@ -49,14 +49,14 @@ function createPhotoCard(post, responseDiv) {
  */
 
 function createButtonMore(responseDiv) {
-    var buttonContainer = document.createElement('div');
+    const buttonContainer = document.createElement('div');
     buttonContainer.classList.add('button-container');
-    var buttonDiv = document.createElement('div');
+    const buttonDiv = document.createElement('div');
     buttonDiv.classList.add('grey-button', 'load-more-button');
     buttonDiv.setAttribute('id','button');
-    var buttonMore = document.createElement('span');
+    const buttonMore = document.createElement('span');
     buttonMore.classList.add('button-text');
-    var buttonText = document.createTextNode('Charger plus');
+    const buttonText = document.createTextNode('Charger plus');
 
     responseDiv.appendChild(buttonContainer);
     buttonContainer.appendChild(buttonDiv);
@@ -89,15 +89,15 @@ function queryPosts(offset, numberPosts, filterValue) {
 
     let offsetValue = parseInt(offset);
     let numberPostsValue = parseInt(numberPosts);
-    var postsData = null;
-    var homeForm = document.getElementById('home-filters');
+    let postsData = null;
+    const homeForm = document.getElementById('home-filters');
     if(homeForm) {
         var homeAjaxUrl = homeForm.getAttribute("action");
         if(document.querySelector("input[name=action]")) {
             var homeAction = document.querySelector("input[name=action]").value;
         }
         if(document.querySelector("input[name=nonce]")) {
-        var homeNonce = document.querySelector("input[name=nonce]").value; 
+            var homeNonce = document.querySelector("input[name=nonce]").value; 
         }
         if(document.querySelector("select[name=formats]")) {
             var homeFormat = document.querySelector("select[name=formats]").value;
@@ -147,7 +147,7 @@ function queryPosts(offset, numberPosts, filterValue) {
                 responseDiv.innerHTML = "";
             }
 
-            var div = document.createElement('div');
+            const div = document.createElement('div');
             div.classList.add('cards-photo-container');
 
             posts.forEach(post => {
@@ -225,7 +225,7 @@ document.addEventListener("DOMContentLoaded", function() {
  */
 
 
-var x, i, j, l, ll, selElmnt, a, b, c;
+let x, i, j, l, ll, selElmnt, a, b, c;
 /* Look for any elements with the class "custom-select": */
 x = document.getElementsByClassName("custom-select");
 l = x.length;
@@ -249,7 +249,7 @@ for (i = 0; i < l; i++) {
     c.addEventListener("click", function(e) {
         /* When an item is clicked, update the original select box,
         and the selected item: */
-        var y, i, k, s, h, sl, yl;
+        let y, i, k, s, h, sl, yl;
         s = this.parentNode.parentNode.getElementsByTagName("select")[0];
         sl = s.length;
         h = this.parentNode.previousSibling;
@@ -284,7 +284,7 @@ for (i = 0; i < l; i++) {
 function closeAllSelect(elmnt) {
   /* A function that will close all select boxes in the document,
   except the current select box: */
-  var x, y, i, xl, yl, arrNo = [];
+  let x, y, i, xl, yl, arrNo = [];
   x = document.getElementsByClassName("select-items");
   y = document.getElementsByClassName("select-selected");
   xl = x.length;

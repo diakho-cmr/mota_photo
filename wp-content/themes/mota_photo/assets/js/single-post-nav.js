@@ -2,10 +2,10 @@
  * POSTS NAVIGATION
  */
 
-var arrowPrev = document.querySelector(".arrow-prev");
-var arrowNext = document.querySelector(".arrow-next");
-var imgPrev = document.querySelector('.img-post-prev');
-var imgNext = document.querySelector('.img-post-next');
+const arrowPrev = document.querySelector(".arrow-prev");
+const arrowNext = document.querySelector(".arrow-next");
+const imgPrev = document.querySelector('.img-post-prev');
+const imgNext = document.querySelector('.img-post-next');
 
 
 if(arrowPrev) {
