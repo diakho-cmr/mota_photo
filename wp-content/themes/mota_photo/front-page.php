@@ -20,6 +20,7 @@ get_header(); ?>
         ?>
         <?php if (!empty(custom_get_post_img($photo_banner)['url'])) : ?>
             <img src="<?= custom_get_post_img($photo_banner)['url'] ?>" alt="<?= custom_get_post_img($photo_banner)['url'] ?>">
+            <h1 class="title-h1 banner-title">Photographe event</h1>
         <?php endif ?>
     </div>
 
