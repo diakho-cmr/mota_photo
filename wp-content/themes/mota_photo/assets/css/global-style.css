@@ -394,25 +394,71 @@ p {
      margin-bottom : 30px;
 }
 
-.filter {
-     padding: 11px 18px;
-     border-radius: 8px;
-     border: solid  #B8BBC2 1.3px;
-     -webkit-appearance: none;
-     appearance: none;
-     background-image: url("../images/chevron_down.png");
-     background-size: 18px;
-     background-repeat: no-repeat;
-     background-position: calc(100% - 18px) center;
-     flex: 0 0 auto; 
-     width : calc((100% - 18px) / 4);
+/* CUSTOM FILTERS (HOMEPAGE SELECT) */
+
+/* The container must be positioned relative */
+.custom-select {
+     position: relative;
+     font-family: Arial;
+     width : calc((100% - 20px) / 4);
      font-family: 'Poppins';
      font-size: 12px;
      font-weight: 500;
+     color: #313144;
 }
 
-#sort {
+.custom-select:last-of-type {
      margin-left: auto;
+}
+   
+/* Hide original SELECT element */
+.custom-select select {
+     display: none;
+}
+
+/* Style the selected item */
+.select-selected {
+     background-color: #FFFFFF;
+     border: solid  #B8BBC2 1.3px;
+     border-radius: 8px;
+     background-image: url("../images/chevron-down-solid.svg");
+     background-size: 18px;
+     background-repeat: no-repeat;
+     background-position: calc(100% - 18px) center;
+}
+
+.select-selected.select-arrow-active {
+     background-image: url("../images/chevron-up-solid.svg");
+     background-size: 18px;
+     background-repeat: no-repeat;
+     background-position: calc(100% - 18px) center;
+}
+
+/* Style custom items (select options) */
+.select-items {
+     position: absolute;
+     background-color: #FFFFFF;
+     top: 100%;
+     left: 0;
+     right: 0;
+     z-index: 99;
+     padding-top: 40px;
+}
+
+.select-items div:hover {
+     background-color: #E00000;
+     color: #FFFFFF;
+}
+   
+/* Style the items and the selected item */
+.select-items div,.select-selected {
+     padding: 11px 18px;
+     cursor: pointer;
+}
+
+/* Hide the items when the select box is closed */
+.select-hide {
+     display: none;
 }
 
 .display-none {

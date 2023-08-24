@@ -28,27 +28,34 @@ get_header(); ?>
         <div class="home-filters">
             <form id="home-filters" action="<?= admin_url('admin-ajax.php'); ?>" method="post">
                 <?php $categories = get_categories(); ?>
-                <select id="categories" name="categories" class="filter">
-                    <option value="default">Catégories</option>
-                    <?php foreach ($categories as $category) : ?>
-                        <option value="<?= $category->slug ?>"><?= $category->name ?></option>
-                    <?php endforeach ?>
-                </select>
+
+                <div class="custom-select">
+                    <select id="categories" name="categories" class="filter">
+                        <option value="default">Catégories</option>
+                        <?php foreach ($categories as $category) : ?>
+                            <option value="<?= $category->slug ?>" class="option"><?= $category->name ?></option>
+                        <?php endforeach ?>
+                    </select>
+                </div>
 
                 <?php $terms = get_terms('format'); ?>
                 
-                <select id="formats" name="formats" class="filter">
-                    <option value="default">Formats</option>
-                    <?php foreach ( $terms as $term ) : ?>
-                        <option value="<?= $term->slug ?>"><?= $term->name ?></option>
-                    <?php endforeach;?>
-                </select>
+                <div class="custom-select">
+                    <select id="formats" name="formats" class="filter">
+                        <option value="default">Formats</option>
+                        <?php foreach ( $terms as $term ) : ?>
+                            <option value="<?= $term->slug ?>"><?= $term->name ?></option>
+                        <?php endforeach;?>
+                    </select>
+                </div>
             
-                <select id="sort" name="sort" class="filter">
-                    <option value="default">Trier par</option>
-                    <option value="DESC">Du + récent au + ancien</option>
-                    <option value="ASC">Du + ancien au + récent</option>
-                </select>
+                <div class="custom-select">
+                    <select id="sort" name="sort" class="filter">
+                        <option value="default">Trier par</option>
+                        <option value="DESC">Du + récent au + ancien</option>
+                        <option value="ASC">Du + ancien au + récent</option>
+                    </select>
+                </div>
 
                 <input type="hidden" name="nonce" value="<?= wp_create_nonce( 'sort_posts_photo' ); ?>"> 
                 <input type="hidden" name="action" value="sort_posts_photo">
