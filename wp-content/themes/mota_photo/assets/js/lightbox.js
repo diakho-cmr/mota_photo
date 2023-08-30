@@ -7,9 +7,6 @@ class Lightbox {
 
     static init() {
 
-        const links = Array.from(document.querySelectorAll('.card-photo-img'));
-        const gallery = links.map(link => link.getAttribute('src'));
-
         let cards = [];
         document.querySelectorAll('.card-photo-img').forEach(card => {
             let cardSrc = card.getAttribute('src');
@@ -132,9 +129,6 @@ class Lightbox {
         e.preventDefault;
         this.element.classList.add('fadeOut');
         this.element.parentElement.removeChild(this.element);
-        /*window.setTimeout(() => {
-            this.element.parentElement.removeChild(this.element);
-        }, 500);*/
         document.removeEventListener('keyup', this.onKeyUp);
     }
 
@@ -192,7 +186,7 @@ class Lightbox {
             <span class="infos-cat photo-desc"></span>
             </div>
             </div>`;
-        } else {
+        } else { //do not add nav in single-post page
             dom.innerHTML = `<i class="lightbox-button fa-solid fa-xmark lightbox-close"></i>
             <div class="lightbox-container">
             <div class="lightbox-img-container">

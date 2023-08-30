@@ -72,12 +72,12 @@
     /***** TITLES/TEXTS *****/
     .title-h1 {
         font-family: 'Space Mono';
-        font-size: 28px;
+        font-size: 38px;
         font-style: italic;
         font-weight: 700;
         line-height: 40.86px;
         letter-spacing: 0em;
-        text-align: left;
+        text-align: center;
         text-transform: uppercase;
    }
    .title-h2 {
@@ -196,6 +196,9 @@
     .post-photo-container .other-posts-content .button-container {
         display: none;
     }
+    .card-photo:hover .circle  {
+        display: none;
+    }
     .footer {
         margin: 0;
         padding-bottom: 44px;
@@ -231,6 +234,9 @@
    }
 
    /***** HOMEPAGE *****/
+   .home-banner {
+    height: 250px;
+   }
    .page-content {
         margin: 40px 40px;
     }

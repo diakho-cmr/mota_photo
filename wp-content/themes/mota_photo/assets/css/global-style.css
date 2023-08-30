@@ -327,6 +327,9 @@ p {
      display: flex;
      justify-content: center;
      align-items: center;
+}
+
+.post-photo-contact .grey-button {
      margin-right: 16px;
 }
 
@@ -474,10 +477,6 @@ p {
      display: none;
 }
 
-.display-none {
-     display: none;
-}
-
 .load-more-button {
      cursor: pointer;
 }
@@ -485,11 +484,10 @@ p {
 #home-photos {
      display: flex;
      flex-direction: column;
-     gap: 20px;
 }
 
 #home-photos .button-container {
-     /*margin: 20px 0 20px;*/
+     padding-top: 20px;
      width: 100%;
 }
 
@@ -499,6 +497,10 @@ p {
      display: flex;
      flex-wrap: wrap;
      gap: 20px;
+}
+
+.cards-container-margin {
+     padding-bottom: 20px;
 }
 
 .post-photo-container .cards-photo-container {
@@ -540,10 +542,6 @@ p {
      right: 10px;
      cursor: pointer;
 }
-
-/*.card-photo .circle {
-     cursor: pointer;
-}*/
 
 .card-photo:hover .fa-expand {
      position: absolute;
@@ -656,9 +654,13 @@ p {
      opacity: 1;
 }
 
+.lightbox-img-container {
+     height: 495px;
+}
+
 .lightbox-img-container img {
      width: 100%;
-     height: 100%; 
+     height: 100%;
      object-fit: cover;
 }
 
